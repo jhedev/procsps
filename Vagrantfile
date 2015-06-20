@@ -15,8 +15,10 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant"
 
-  # NOT YET WORKING
-  # config.vm.provision "shell", inline: <<-SHELL
-  #  curl -sSf https://static.rust-lang.org/rustup.sh | sudo clean=no sh
-  # SHELL
+  # Install rust
+  config.vm.provision "shell", inline: <<-SHELL
+   curl -sSf https://static.rust-lang.org/rustup.sh > rustup.sh
+   chmod +x rustup.sh
+   ./rustup.sh -y
+  SHELL
 end
