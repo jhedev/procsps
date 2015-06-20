@@ -2,3 +2,11 @@
 name = "procsps-rust"
 version = "0.1.0"
 authors = ["Joel Hermanns <joel.hermanns@gmail.com>"]
+
+[dependencies]
+libc = "0.1.8"
+getopts = "0.2"
+
+[[bin]]
+name = "uptime"
+path = "src/uptime.rs"
