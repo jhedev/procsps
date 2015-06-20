@@ -21,4 +21,11 @@ Vagrant.configure(2) do |config|
    chmod +x rustup.sh
    ./rustup.sh -y
   SHELL
+
+  # Install procs dev header
+  config.vm.provision "shell", inline: <<-SHELL
+   sudo apt-get update
+   sudo apt-get install libprocps3-dev
+  SHELL
+
 end
