@@ -25,7 +25,7 @@ extern {
 
 fn print_uptime_since() {
     let now = time::now();
-    let (uptime_secs, idle_secs) = lib::uptime();
+    let (uptime_secs, _) = lib::uptime();
     let dur = time::Duration::seconds(uptime_secs as i64);
     let up_since = (now - dur).to_local();
 
@@ -48,7 +48,7 @@ fn print_uptime(human_readable: bool) {
     let mut upweeks = 0;
     let mut updays = 0;
 
-    let (uptime_secs, idle_secs) = lib::uptime();
+    let (uptime_secs, _) = lib::uptime();
 
     if human_readable {
         updecades = uptime_secs as i32 / (60*60*24*365*10);
