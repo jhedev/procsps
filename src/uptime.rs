@@ -22,7 +22,18 @@ extern {
 //}
 
 fn print_uptime_since() {
-    panic!("Not yet implemented!");
+    let now = time::now();
+    let mut uptime_secs = 0.0;
+    let mut idle_secs = 0.0;
+    unsafe {
+        uptime(&mut uptime_secs, &mut idle_secs);
+    }
+    let dur = time::Duration::seconds(uptime_secs as i64);
+    let up_since = (now - dur).to_local();
+
+    println!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", up_since.tm_year + 1900,
+             up_since.tm_mon + 1, up_since.tm_mday, up_since.tm_hour,
+             up_since.tm_min, up_since.tm_sec);
 }
 
 fn print_uptime(human_readable: bool) {
