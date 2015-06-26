@@ -98,14 +98,7 @@ fn print_uptime(human_readable: bool) {
         let plural =  if numuser > 1 {"s"} else {""};
         res.push_str(&format!("{} user{}, ", numuser, plural));
 
-        let mut av1 = 0.0;
-        let mut av5 = 0.0;
-        let mut av15 = 0.0;
-
-        unsafe {
-            loadavg(&mut av1, &mut av5, &mut av15);
-        }
-
+        let (av1, av5, av15) = lib::loadavg();
         res.push_str(&format!(" load average: {:.2}, {:.2}, {:.2}", av1, av5, av15));
 
     }
