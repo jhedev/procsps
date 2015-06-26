@@ -5,6 +5,7 @@ use getopts::Options;
 use libc::{c_double, c_int};
 use std::env;
 
+//TODO: replace with proper rust functions
 #[link(name="procps")]
 extern {
     fn loadavg(av1: *mut c_double, av5: *mut c_double, av15: *mut c_double);
