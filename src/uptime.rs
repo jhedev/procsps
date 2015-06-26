@@ -40,14 +40,11 @@ fn print_uptime_since() {
 fn print_uptime(human_readable: bool) {
     let mut res = String::new();
 
-    /* first get the current time */
     if !human_readable {
         let realtime = time::now().to_local();
         res = format!(" {:02}:{:02}:{:02} ", realtime.tm_hour, realtime.tm_min,
                       realtime.tm_sec);
     }
-
-    /* read and calculate the amount of uptime */
 
     let mut uptime_secs = 0.0;
     let mut idle_secs = 0.0;
@@ -88,8 +85,6 @@ fn print_uptime(human_readable: bool) {
         } else {
             res.push_str(&format!("{} min, ", upminutes));
         }
-
-        /* count the number of users */
 
         let numuser = 0;
         //TODO: Get it working
