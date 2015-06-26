@@ -5,11 +5,12 @@ use getopts::Options;
 use libc::{c_double, c_int};
 use std::env;
 
+mod lib;
+
 //TODO: replace with proper rust functions
 #[link(name="procps")]
 extern {
     fn loadavg(av1: *mut c_double, av5: *mut c_double, av15: *mut c_double);
-    fn uptime(uptime_seconds: *mut c_double, idle_seconds: *mut c_double) -> c_int;
 }
 
 //struct utmp;
@@ -24,11 +25,7 @@ extern {
 
 fn print_uptime_since() {
     let now = time::now();
-    let mut uptime_secs = 0.0;
-    let mut idle_secs = 0.0;
-    unsafe {
-        uptime(&mut uptime_secs, &mut idle_secs);
-    }
+    let (uptime_secs, idle_secs) = lib::uptime();
     let dur = time::Duration::seconds(uptime_secs as i64);
     let up_since = (now - dur).to_local();
 
@@ -46,16 +43,13 @@ fn print_uptime(human_readable: bool) {
                       realtime.tm_sec);
     }
 
-    let mut uptime_secs = 0.0;
-    let mut idle_secs = 0.0;
     let mut updecades = 0;
     let mut upyears = 0;
     let mut upweeks = 0;
     let mut updays = 0;
 
-    unsafe {
-        uptime(&mut uptime_secs, &mut idle_secs);
-    }
+    let (uptime_secs, idle_secs) = lib::uptime();
+
     if human_readable {
         updecades = uptime_secs as i32 / (60*60*24*365*10);
         upyears = (uptime_secs as i32 / (60*60*24*365)) as i32 % 10;
