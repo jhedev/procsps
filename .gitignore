@@ -3,3 +3,4 @@
 
 # Rust stuff
 target/
+Cargo.lock
