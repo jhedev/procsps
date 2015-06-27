@@ -15,7 +15,7 @@ pub fn uptime() -> (f64, f64) {
     let vec: Vec<&str> = split.collect();
     let uptime_secs: f64 = vec[0].trim().parse().unwrap();
     let idle_secs: f64 = vec[1].trim().parse().unwrap();
-    return (uptime_secs, idle_secs)
+    (uptime_secs, idle_secs)
 }
 
 pub fn loadavg() -> (f64, f64, f64) {
@@ -33,5 +33,5 @@ pub fn loadavg() -> (f64, f64, f64) {
     let av1: f64 = vec[0].trim().parse().unwrap();
     let av5: f64 = vec[1].trim().parse().unwrap();
     let av15: f64 = vec[2].trim().parse().unwrap();
-    return (av1, av5, av15)
+    (av1, av5, av15)
 }
