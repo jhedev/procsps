@@ -2,18 +2,9 @@ extern crate getopts;
 extern crate time;
 use getopts::Options;
 use std::env;
+use std::ptr::null;
 
 mod lib;
-
-//struct utmp;
-//static USER_PROCESS: i32 = 7;
-//
-//#[link(name = "utmp")]
-//extern {
-//    fn getutent() -> *mut utmp;
-//    fn setutent();
-//    fn endutent();
-//}
 
 fn print_uptime_since() {
     let now = time::now();
@@ -72,20 +63,19 @@ fn print_uptime(human_readable: bool) {
             res.push_str(&format!("{} min, ", upminutes));
         }
 
-        let numuser = 0;
-        //TODO: Get it working
-        //unsafe {
-        //    setutent();
-        //    let mut utmpstruct = getutent();
-        //    while utmpstruct.is_null() {
-        //        if (utmpstruct.ut_type == USER_PROCESS) &&
-        //            (utmpstruct.ut_name[0] != '\0') {
-        //                numuser += 1;
-        //            }
-        //        utmpstruct = getutent();
-        //    }
-        //    endutent();
-        //}
+        // Determine number of users
+        let mut numuser = 0;
+        unsafe {
+            lib::setutxent();
+            let mut utmpstruct = lib::getutxent();
+            while utmpstruct != null() {
+                if (*utmpstruct).ut_type == lib::USER_PROCESS {
+                        numuser += 1;
+                    }
+                utmpstruct = lib::getutxent();
+            }
+            lib::endutxent();
+        }
 
         let plural =  if numuser > 1 {"s"} else {""};
         res.push_str(&format!("{} user{}, ", numuser, plural));
